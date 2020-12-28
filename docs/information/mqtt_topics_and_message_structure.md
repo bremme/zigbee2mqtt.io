@@ -97,7 +97,7 @@ Example payload:
         "network_address":29159,
         "supported":true,
         "friendly_name":"my_plug",
-        "endpoints":{"1":{"bindings":[],"clusters":{"input":["genOnOff","genBasic"],"output":[]}}},
+        "endpoints":{"1":{"bindings":[],"configured_reportings":[],"clusters":{"input":["genOnOff","genBasic"],"output":[]}}},
         "definition":{
             "model":"ZNCZ02LM",
             "vendor":"Xiaomi",
@@ -114,7 +114,7 @@ Example payload:
         "network_address":57440,
         "supported":true,
         "friendly_name":"my_bulb",
-        "endpoints":{"1":{"bindings":[],"clusters":{"input":["genOnOff","genBasic","genLevelCtrl"],"output":["genOta"]}}},
+        "endpoints":{"1":{"bindings":[],"configured_reportings":[],"clusters":{"input":["genOnOff","genBasic","genLevelCtrl"],"output":["genOta"]}}},
         "definition":{
             "model":"LED1624G9",
             "vendor":"IKEA",
@@ -136,6 +136,9 @@ Example payload:
               {"cluster":"genOnOff","target":{"type":"endpoint","endpoint":1,"ieee_address":"0x000b57fffec6a5b3"}},
               {"cluster":"genOnOff","target":{"type":"group","id":1}},
             ],
+            "configured_reportings":[
+              {"cluster":"genOnOff","attribute":"onOff","maximum_report_interval":10,"minimum_report_interval":1,"reportable_change":1}
+            ],
             "clusters":{"input":["genBasic","msIlluminanceMeasurement"],"output":["genOnOff"]}
           }
         },
@@ -153,7 +156,7 @@ Example payload:
         "type":"Coordinator",
         "network_address":0,
         "supported":false,
-        "endpoints":{"1":{"bindings":[],"clusters":{"input":[],"output":[]}}},
+        "endpoints":{"1":{"bindings":[],"configured_reportings":[],"clusters":{"input":[],"output":[]}}},
         "friendly_name":"Coordinator",
         "definition":null,
         "power_source":null,
@@ -304,6 +307,15 @@ See [Binding](./binding.md).
 
 See [Binding](./binding.md).
 </details>
+
+<details>
+<summary>zigbee2mqtt/bridge/request/device/configure_reporting</summary>
+
+Allows to send a Zigbee configure reporting command to a device. Refer to the Configure Reporting Command in the [ZigBee Cluster Library](https://github.com/Koenkk/zigbee-herdsman/blob/master/docs/Zigbee%20Cluster%20Library%20Specification%20v7.pdf) for more information. Example payload is `{"id":"my_bulb","cluster":"genLevelCtrl","attribute":"currentLevel","minimum_report_interval":5,"maximum_report_interval":10,"reportable_change":10}`. In this case the repsponse would be `{"data":{"id":"my_bulb","cluster":"genLevelCtrl","attribute":"currentLevel","minimum_report_interval":5,"maximum_report_interval":"10","reportable_change":10},"status":"ok"}`.
+
+To disable reporting set the `maximum_report_interval` to `65535`.
+</details>
+
 
 #### Group
 <details>
